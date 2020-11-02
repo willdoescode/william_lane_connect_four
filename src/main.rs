@@ -1,3 +1,7 @@
+use log_update::LogUpdate;
+use std::io::stdout;
+mod time;
+
 struct Board {
   board: [[char; 7]; 6],
 }
@@ -30,11 +34,28 @@ impl Board {
     }
     res
   }
+
+  fn change_slot(&mut self, x: usize, y: usize, new: char)  {
+    self.board[y][x] = new;
+  }
+
+  fn animate_down(&mut self, col: usize) {
+    let mut log_update = LogUpdate::new(stdout()).unwrap();
+    for x in 0..6 {
+      if x > 0 {
+        Board::change_slot(self, col, x - 1, '-');
+      }
+      Board::change_slot(self, col, x, 'h');
+      log_update.render(&Board::display_board(self)).unwrap();
+      time::sleep_ms(400);
+    }
+  }
+
 }
 
 
 fn main() {
-  let board = Board::new([
+  let mut board = Board::new([
     ['-', '-', '-', '-', '-', '-', '-'],
     ['-', '-', '-', '-', '-', '-', '-'],
     ['-', '-', '-', '-', '-', '-', '-'],
@@ -42,8 +63,7 @@ fn main() {
     ['-', '-', '-', '-', '-', '-', '-'],
     ['-', '-', '-', '-', '-', '-', '-'],
   ]);
-
-  println!("{}", board.display_board() )
+  board.animate_down(4);
 }
 
 #[cfg(test)]
