@@ -11,9 +11,16 @@ struct Board {
 }
 
 impl Board {
-  fn new(board: [[char; 7]; 6]) -> Self {
+  fn new() -> Self {
     Board {
-      board,
+      board: [
+        ['-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-'],
+      ],
       log_update: LogUpdate::new(stdout()).unwrap() 
     }
   }
@@ -51,9 +58,9 @@ impl Board {
       if x > 0 {
         self.change_slot(col, x - 1, '-');
       }
-        self.change_slot(col, x, down_char);
-        self.log_update.render(&self.display_board()).unwrap();
-        time::sleep_ms(400);
+      self.change_slot(col, x, down_char);
+      self.log_update.render(&self.display_board()).unwrap();
+      time::sleep_ms(400);
     }
   }
 
@@ -80,14 +87,7 @@ impl Board {
 
 
 fn main() {
-  let mut board = Board::new([
-    ['-', '-', '-', '-', '-', '-', '-'],
-    ['-', '-', '-', '-', '-', '-', '-'],
-    ['-', '-', '-', '-', '-', '-', '-'],
-    ['-', '-', '-', '-', '-', '-', '-'],
-    ['-', '-', '-', '-', '-', '-', '-'],
-    ['-', '-', '-', '-', '-', '-', '-'],
-  ]);
+  let mut board = Board::new();
   board.input();
   board.input();
   board.input();
