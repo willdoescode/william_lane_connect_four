@@ -4,11 +4,15 @@ mod time;
 
 struct Board {
   board: [[char; 7]; 6],
+  log_update: LogUpdate<std::io::Stdout>
 }
 
 impl Board {
   fn new(board: [[char; 7]; 6]) -> Self {
-    Board { board }
+    Board {
+      board,
+      log_update: LogUpdate::new(stdout()).unwrap() 
+    }
   }
 
   fn display_board(&self) -> String {
@@ -39,14 +43,13 @@ impl Board {
     self.board[y][x] = new;
   }
 
-  fn animate_down(&mut self, col: usize) {
-    let mut log_update = LogUpdate::new(stdout()).unwrap();
+  fn animate_down(&mut self, col: usize, down_char: char) {
     for x in 0..6 {
       if x > 0 {
         Board::change_slot(self, col, x - 1, '-');
       }
-      Board::change_slot(self, col, x, 'h');
-      log_update.render(&Board::display_board(self)).unwrap();
+      Board::change_slot(self, col, x, down_char);
+      self.log_update.render(&Board::display_board(self)).unwrap();
       time::sleep_ms(400);
     }
   }
@@ -63,7 +66,8 @@ fn main() {
     ['-', '-', '-', '-', '-', '-', '-'],
     ['-', '-', '-', '-', '-', '-', '-'],
   ]);
-  board.animate_down(4);
+  board.animate_down(4, 'h');
+  board.animate_down(4, 'j');
 }
 
 #[cfg(test)]
