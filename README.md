@@ -5,6 +5,7 @@
 
 - [Rust installed](https://www.rust-lang.org/tools/install)
 - A terminal or command prompt
+- A love for overcomplicated terminal games
 
 ## Installation
 
