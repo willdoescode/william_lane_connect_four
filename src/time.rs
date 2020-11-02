@@ -1,3 +1,5 @@
+#[allow(dead_code)]
+
 pub fn sleep(seconds: u64) {
   std::thread::sleep(std::time::Duration::from_secs(seconds));
 }
