@@ -5,8 +5,9 @@ use std::io::stdout;
 
 #[test]
 fn test_new() {
-  let board = Board::new();
-  let normal = Board {
+  let board = Game::new();
+  let normal = Game {
+    count: [6, 6, 6, 6, 6, 6, 6],
     board: [
       ['-', '-', '-', '-', '-', '-', '-'],
       ['-', '-', '-', '-', '-', '-', '-'],
@@ -23,62 +24,62 @@ fn test_new() {
 
 #[test]
 fn test_display() {
-  assert_eq!(Board::new().display_board(),
-  "  0  1  2  3  4  5  6 
-0 -  -  -  -  -  -  - 
+  assert_eq!(Game::new().display_board(),
+  "  1  2  3  4  5  6  7 
 1 -  -  -  -  -  -  - 
 2 -  -  -  -  -  -  - 
 3 -  -  -  -  -  -  - 
 4 -  -  -  -  -  -  - 
 5 -  -  -  -  -  -  - 
+6 -  -  -  -  -  -  - 
 ");
 }
 
 #[test]
 fn test_slot_change() {
-  let mut board = Board::new();
+  let mut board = Game::new();
   board.change_slot(0, 3, 'e');
   assert_eq!(board.display_board(),
-  "  0  1  2  3  4  5  6 
-0 -  -  -  -  -  -  - 
+  "  1  2  3  4  5  6  7 
 1 -  -  -  -  -  -  - 
 2 -  -  -  -  -  -  - 
-3 e  -  -  -  -  -  - 
-4 -  -  -  -  -  -  - 
+3 -  -  -  -  -  -  - 
+4 e  -  -  -  -  -  - 
 5 -  -  -  -  -  -  - 
+6 -  -  -  -  -  -  - 
 ");
 
   board.change_slot(3, 4, 'w');
   assert_eq!(board.display_board(),
-  "  0  1  2  3  4  5  6 
-0 -  -  -  -  -  -  - 
+  "  1  2  3  4  5  6  7 
 1 -  -  -  -  -  -  - 
 2 -  -  -  -  -  -  - 
-3 e  -  -  -  -  -  - 
-4 -  -  -  w  -  -  - 
-5 -  -  -  -  -  -  - 
+3 -  -  -  -  -  -  - 
+4 e  -  -  -  -  -  - 
+5 -  -  -  w  -  -  - 
+6 -  -  -  -  -  -  - 
 ");
 
   board.change_slot(3, 5, 'j');
   assert_eq!(board.display_board(),
-  "  0  1  2  3  4  5  6 
-0 -  -  -  -  -  -  - 
+  "  1  2  3  4  5  6  7 
 1 -  -  -  -  -  -  - 
 2 -  -  -  -  -  -  - 
-3 e  -  -  -  -  -  - 
-4 -  -  -  w  -  -  - 
-5 -  -  -  j  -  -  - 
+3 -  -  -  -  -  -  - 
+4 e  -  -  -  -  -  - 
+5 -  -  -  w  -  -  - 
+6 -  -  -  j  -  -  - 
 ");
 
 
   board.change_slot(4, 5, 'h');
   assert_eq!(board.display_board(),
-  "  0  1  2  3  4  5  6 
-0 -  -  -  -  -  -  - 
+  "  1  2  3  4  5  6  7 
 1 -  -  -  -  -  -  - 
 2 -  -  -  -  -  -  - 
-3 e  -  -  -  -  -  - 
-4 -  -  -  w  -  -  - 
-5 -  -  -  j  h  -  - 
+3 -  -  -  -  -  -  - 
+4 e  -  -  -  -  -  - 
+5 -  -  -  w  -  -  - 
+6 -  -  -  j  h  -  - 
 ");
 }
