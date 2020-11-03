@@ -75,7 +75,7 @@ impl Game {
       let trimmed = input_text.trim();
       match trimmed.parse::<u32>() {
         Ok(i) =>{
-          &self.animate_down((i - 1) as usize, 'h');
+          &self.animate_down((i - 1) as usize, '∅');
           stdout().flush().ok().expect("could not flush");
         }, 
         Err(..) => println!("this was not an integer: {}", trimmed),
