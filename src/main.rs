@@ -7,21 +7,16 @@ mod time;
 struct Game {
   count: [u8; 7],
   board: [[char; 7]; 6],
+  player: char,
   log_update: LogUpdate<std::io::Stdout>
 }
 
 impl Game {
   fn new() -> Self {
     Game {
-      count: [6, 6, 6, 6, 6, 6, 6],
-      board: [
-        ['-', '-', '-', '-', '-', '-', '-'],
-        ['-', '-', '-', '-', '-', '-', '-'],
-        ['-', '-', '-', '-', '-', '-', '-'],
-        ['-', '-', '-', '-', '-', '-', '-'],
-        ['-', '-', '-', '-', '-', '-', '-'],
-        ['-', '-', '-', '-', '-', '-', '-'],
-      ],
+      count: [6; 7],
+      board: [['-'; 7]; 6],
+      player: 'O',
       log_update: LogUpdate::new(stdout()).unwrap() 
     }
   }
@@ -61,9 +56,14 @@ impl Game {
       }
       self.change_slot(col, x as usize, down_char);
       self.log_update.render(&self.display_board()).unwrap();
-      time::sleep_ms(350);
+      time::sleep_ms(200);
     }
     self.count[col] -= 1;
+    if self.player == 'O' {
+      self.player = '0'
+    } else {
+      self.player = 'O'
+    }
   }
 
   fn input(&mut self) {
@@ -75,7 +75,7 @@ impl Game {
       let trimmed = input_text.trim();
       match trimmed.parse::<u32>() {
         Ok(i) =>{
-          &self.animate_down((i - 1) as usize, '∅');
+          &self.animate_down((i - 1) as usize, self.player);
           stdout().flush().ok().expect("could not flush");
         }, 
         Err(..) => println!("this was not an integer: {}", trimmed),
@@ -88,6 +88,13 @@ impl Game {
 
 fn main() {
   let mut board = Game::new();
+  board.input();
+  board.input();
+  board.input();
+  board.input();
+  board.input();
+  board.input();
+  board.input();
   board.input();
   board.input();
   board.input();
