@@ -1,4 +1,4 @@
-#[allow(dead_code)]
+#![allow(dead_code)]
 use log_update::LogUpdate;
 use std::io::prelude::*;
 use std::io::stdout;
@@ -23,7 +23,7 @@ impl Game {
 
   fn display_board(&self) -> String {
     let mut res = String::new();
-    res.push_str(" ");
+    res.push(' ');
     for i in 0..7 {
       res.push_str(&format!(" {} ", i+1)[..]);
       if i == 6 {
@@ -75,8 +75,8 @@ impl Game {
       let trimmed = input_text.trim();
       match trimmed.parse::<u32>() {
         Ok(i) =>{
-          &self.animate_down((i - 1) as usize, self.player);
-          stdout().flush().ok().expect("could not flush");
+          self.animate_down((i - 1) as usize, self.player);
+          stdout().flush().expect("could not flush");
         }, 
         Err(..) => println!("this was not an integer: {}", trimmed),
       };
