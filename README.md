@@ -1,5 +1,4 @@
-# William Lane Connect Four [![Build Status](https://github.com/camascoding/william_lane_connect_four/workflows/All%20tests/badge.svg?branch=main)](https://github.com/camascoding/william_lane_connect_four/actions)
----
+# William Lane Connect Four [![Build Status](https://travis-ci.org/camascoding/william_lane_connect_four.svg?branch=main)](https://travis-ci.org/camascoding/william_lane_connect_four)
 
 
 ## Requirements
