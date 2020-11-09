@@ -8,7 +8,7 @@ struct Game {
   count: [u8; 7],
   board: [[char; 7]; 6],
   player: char,
-  log_update: LogUpdate<std::io::Stdout>
+  log_update: LogUpdate<std::io::Stdout>,
 }
 
 impl Game {
@@ -17,7 +17,7 @@ impl Game {
       count: [6; 7],
       board: [['-'; 7]; 6],
       player: 'O',
-      log_update: LogUpdate::new(stdout()).unwrap() 
+      log_update: LogUpdate::new(stdout()).unwrap(),
     }
   }
 
@@ -25,7 +25,7 @@ impl Game {
     let mut res = String::new();
     res.push(' ');
     for i in 0..7 {
-      res.push_str(&format!(" {} ", i+1)[..]);
+      res.push_str(&format!(" {} ", i + 1)[..]);
       if i == 6 {
         res.push('\n');
       }
@@ -45,7 +45,7 @@ impl Game {
     res
   }
 
-  fn change_slot(&mut self, c: usize, r: usize, new: char)  {
+  fn change_slot(&mut self, c: usize, r: usize, new: char) {
     self.board[r][c] = new;
   }
 
@@ -59,11 +59,11 @@ impl Game {
       time::sleep_ms(200);
     }
     self.count[col] -= 1;
-    if self.player == 'O' {
-      self.player = '0'
-    } else {
-      self.player = 'O'
-    }
+    //if self.player == 'O' {
+    //self.player = '0'
+    //} else {
+    //self.player = 'O'
+    //}
   }
 
   fn input(&mut self) {
@@ -74,24 +74,30 @@ impl Game {
 
       let trimmed = input_text.trim();
       match trimmed.parse::<u32>() {
-        Ok(i) =>{
-          self.animate_down((i - 1) as usize, self.player);
-          stdout().flush().expect("could not flush");
-        }, 
-        Err(..) => println!("this was not an integer: {}", trimmed),
+        Ok(i) => {
+          if i > 7 {
+            println!("Please enter a number less than 7");
+            self.input();
+          } else {
+            self.animate_down((i - 1) as usize, self.player);
+            stdout().flush().expect("could not flush");
+          }
+        }
+        Err(..) => {
+          println!("this was not an integer: {}", trimmed);
+          self.input();
+        }
       };
-      let _ = self.log_update.done();
+      self.log_update.done().unwrap();
   }
 
+  fn play(&mut self) {
+    self.input();
+  }
 }
-
 
 fn main() {
   let mut board = Game::new();
-  board.input();
-  board.input();
-  board.input();
-  board.input();
   board.input();
   board.input();
   board.input();
