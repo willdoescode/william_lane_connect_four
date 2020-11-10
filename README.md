@@ -10,12 +10,22 @@
 ## Installation
 
 ```bash
-git clone https://github.com/camascoding/william_lane_connect_four.git
-
-cd william_lane_connect_four/
+cargo install connect_four
 ```
 
 ## Usage
+
+```bash
+connect_four
+```
+
+## Manual Installation
+
+```bash
+git clone https://github.com/camascoding/william_lane_connect_four.git
+
+cd william_lane_connect_four/
+``` 
 
 To run
 
@@ -34,3 +44,5 @@ To test
 ```bash
 cargo test
 ```
+```
+
