@@ -136,14 +136,16 @@ impl Game {
       }
     }
     if self.player == 'O' {
-    self.player = '0'
+      self.player = '0'
     } else {
-    self.player = 'O'
+      self.player = 'O'
     }
   }
 
   fn play(&mut self) {
-    self.input();
+    loop {
+      self.input();
+    }
   }
 }
 
@@ -154,9 +156,7 @@ fn check_arr(a: [char; 4], player: char) -> bool {
 
 fn main() {
   let mut board = Game::new();
-  loop {
-    board.input();
-  }
+  board.play();
 }
 
 #[cfg(test)]
