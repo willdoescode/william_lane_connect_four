@@ -59,11 +59,6 @@ impl Game {
       time::sleep_ms(200);
     }
     self.count[col] -= 1;
-    //if self.player == 'O' {
-    //self.player = '0'
-    //} else {
-    //self.player = 'O'
-    //}
   }
 
   fn input(&mut self) {
@@ -105,6 +100,46 @@ impl Game {
         self.win()
       }
     }
+    if c < 4 {
+      if check_arr([self.board[r][c], self.board[r][c + 1], self.board[r][c + 2], self.board[r][c + 3]], self.player) {
+        self.win()
+      }
+    }
+    if r > 2 {
+      if check_arr([self.board[r][c], self.board[r - 1][c], self.board[r - 2][c], self.board[r - 3][c]], self.player) {
+        self.win()
+      }
+    }
+    if r < 3 {
+      if check_arr([self.board[r][c], self.board[r + 1][c], self.board[r + 2][c], self.board[r + 3][c]], self.player) {
+        self.win()
+      }
+    }
+    if r < 3 && c < 4 {
+      if check_arr([self.board[r][c], self.board[r + 1][c + 1], self.board[r + 2][c + 2], self.board[r + 3][c + 3]], self.player) {
+        self.win()
+      }
+    }
+    if r < 3 && c > 2 {
+      if check_arr([self.board[r][c], self.board[r + 1][c - 1], self.board[r + 2][c - 2], self.board[r + 3][c - 3]], self.player) {
+        self.win()
+      }
+    }
+    if r > 3 && c < 4 {
+      if check_arr([self.board[r][c], self.board[r - 1][c + 1], self.board[r - 2][c + 2], self.board[r - 3][c + 3]], self.player) {
+        self.win()
+      }
+    }
+    if r > 3 && c > 2 {
+      if check_arr([self.board[r][c], self.board[r - 1][c - 1], self.board[r - 2][c - 2], self.board[r - 3][c - 3]], self.player) {
+        self.win()
+      }
+    }
+    if self.player == 'O' {
+    self.player = '0'
+    } else {
+    self.player = 'O'
+    }
   }
 
   fn play(&mut self) {
@@ -119,13 +154,9 @@ fn check_arr(a: [char; 4], player: char) -> bool {
 
 fn main() {
   let mut board = Game::new();
-  board.input();
-  board.input();
-  board.input();
-  board.input();
-  board.input();
-  board.input();
-  board.input();
+  loop {
+    board.input();
+  }
 }
 
 #[cfg(test)]
