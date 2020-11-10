@@ -75,20 +75,36 @@ impl Game {
       let trimmed = input_text.trim();
       match trimmed.parse::<u32>() {
         Ok(i) => {
-          if i > 7 {
-            println!("Please enter a number less than 7");
+          if i > 7 || i <= 0 {
+            println!("Please enter a number less than 7 and more than 0");
             self.input();
           } else {
             self.animate_down((i - 1) as usize, self.player);
+            self.check_win(i as usize - 1);
             stdout().flush().expect("could not flush");
           }
         }
         Err(..) => {
-          println!("this was not an integer: {}", trimmed);
+          println!("this was not an positive integer: {}", trimmed);
           self.input();
         }
       };
       self.log_update.done().unwrap();
+  }
+
+  fn win(&mut self) {
+    self.log_update.done().unwrap();
+    println!("{} has won!", self.player);
+    std::process::exit(0);
+  }
+
+  fn check_win(&mut self, c: usize) {
+    let r = self.count[c] as usize;
+    if c > 2 {
+      if check_arr([self.board[r][c], self.board[r][c - 1], self.board[r][c - 2], self.board[r][c - 3]], self.player) {
+        self.win()
+      }
+    }
   }
 
   fn play(&mut self) {
@@ -96,8 +112,14 @@ impl Game {
   }
 }
 
+fn check_arr(a: [char; 4], player: char) -> bool {
+  a.iter().all(|&i| i == player) 
+}
+
+
 fn main() {
   let mut board = Game::new();
+  board.input();
   board.input();
   board.input();
   board.input();
