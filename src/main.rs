@@ -1,7 +1,7 @@
 #![allow(dead_code)]
+#![allow(clippy::collapsible_if)]
 use log_update::LogUpdate;
-use std::io::prelude::*;
-use std::io::stdout;
+use std::io::{prelude::*, stdout};
 mod time;
 
 struct Game {
@@ -67,24 +67,27 @@ impl Game {
       .read_line(&mut input_text)
       .expect("failed to read from stdin");
 
-      let trimmed = input_text.trim();
-      match trimmed.parse::<u32>() {
-        Ok(i) => {
-          if i > 7 || i <= 0 {
-            println!("Please enter a number less than 7 and more than 0");
-            self.input();
-          } else {
-            self.animate_down((i - 1) as usize, self.player);
-            self.check_win(i as usize - 1);
-            stdout().flush().expect("could not flush");
-          }
-        }
-        Err(..) => {
-          println!("this was not an positive integer: {}", trimmed);
+    let trimmed = input_text.trim();
+    match trimmed.parse::<u32>() {
+      Ok(i) => {
+        if self.count[i as usize - 1] == 0 {
+          println!("Please choose an empty column");
           self.input();
+        } else if i > 7 || i <= 0 {
+          println!("Please enter a number less than 7 and more than 0");
+          self.input();
+        } else {
+          self.animate_down((i - 1) as usize, self.player);
+          self.check_win(i as usize - 1);
+          stdout().flush().expect("could not flush");
         }
-      };
-      self.log_update.done().unwrap();
+      }
+      Err(..) => {
+        println!("this was not an positive integer: {}", trimmed);
+        self.input();
+      }
+    };
+    self.log_update.done().unwrap();
   }
 
   fn win(&mut self) {
@@ -96,42 +99,106 @@ impl Game {
   fn check_win(&mut self, c: usize) {
     let r = self.count[c] as usize;
     if c > 2 {
-      if check_arr([self.board[r][c], self.board[r][c - 1], self.board[r][c - 2], self.board[r][c - 3]], self.player) {
+      if check_arr(
+        [
+          self.board[r][c],
+          self.board[r][c - 1],
+          self.board[r][c - 2],
+          self.board[r][c - 3],
+        ],
+        self.player,
+      ) {
         self.win()
       }
     }
     if c < 4 {
-      if check_arr([self.board[r][c], self.board[r][c + 1], self.board[r][c + 2], self.board[r][c + 3]], self.player) {
+      if check_arr(
+        [
+          self.board[r][c],
+          self.board[r][c + 1],
+          self.board[r][c + 2],
+          self.board[r][c + 3],
+        ],
+        self.player,
+      ) {
         self.win()
       }
     }
     if r > 2 {
-      if check_arr([self.board[r][c], self.board[r - 1][c], self.board[r - 2][c], self.board[r - 3][c]], self.player) {
+      if check_arr(
+        [
+          self.board[r][c],
+          self.board[r - 1][c],
+          self.board[r - 2][c],
+          self.board[r - 3][c],
+        ],
+        self.player,
+      ) {
         self.win()
       }
     }
     if r < 3 {
-      if check_arr([self.board[r][c], self.board[r + 1][c], self.board[r + 2][c], self.board[r + 3][c]], self.player) {
+      if check_arr(
+        [
+          self.board[r][c],
+          self.board[r + 1][c],
+          self.board[r + 2][c],
+          self.board[r + 3][c],
+        ],
+        self.player,
+      ) {
         self.win()
       }
     }
     if r < 3 && c < 4 {
-      if check_arr([self.board[r][c], self.board[r + 1][c + 1], self.board[r + 2][c + 2], self.board[r + 3][c + 3]], self.player) {
+      if check_arr(
+        [
+          self.board[r][c],
+          self.board[r + 1][c + 1],
+          self.board[r + 2][c + 2],
+          self.board[r + 3][c + 3],
+        ],
+        self.player,
+      ) {
         self.win()
       }
     }
     if r < 3 && c > 2 {
-      if check_arr([self.board[r][c], self.board[r + 1][c - 1], self.board[r + 2][c - 2], self.board[r + 3][c - 3]], self.player) {
+      if check_arr(
+        [
+          self.board[r][c],
+          self.board[r + 1][c - 1],
+          self.board[r + 2][c - 2],
+          self.board[r + 3][c - 3],
+        ],
+        self.player,
+      ) {
         self.win()
       }
     }
     if r > 3 && c < 4 {
-      if check_arr([self.board[r][c], self.board[r - 1][c + 1], self.board[r - 2][c + 2], self.board[r - 3][c + 3]], self.player) {
+      if check_arr(
+        [
+          self.board[r][c],
+          self.board[r - 1][c + 1],
+          self.board[r - 2][c + 2],
+          self.board[r - 3][c + 3],
+        ],
+        self.player,
+      ) {
         self.win()
       }
     }
     if r > 3 && c > 2 {
-      if check_arr([self.board[r][c], self.board[r - 1][c - 1], self.board[r - 2][c - 2], self.board[r - 3][c - 3]], self.player) {
+      if check_arr(
+        [
+          self.board[r][c],
+          self.board[r - 1][c - 1],
+          self.board[r - 2][c - 2],
+          self.board[r - 3][c - 3],
+        ],
+        self.player,
+      ) {
         self.win()
       }
     }
@@ -150,9 +217,8 @@ impl Game {
 }
 
 fn check_arr(a: [char; 4], player: char) -> bool {
-  a.iter().all(|&i| i == player) 
+  a.iter().all(|&i| i == player)
 }
-
 
 fn main() {
   let mut board = Game::new();
