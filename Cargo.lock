@@ -8,7 +8,7 @@ checksum = "163bff5f88583fe2d90e3002ea2a3b613c93b5e3eb84daf7fd539032e32a68b3"
 
 [[package]]
 name = "connect_four"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "log-update",
 ]
