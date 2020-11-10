@@ -8,6 +8,7 @@ fn test_new() {
     count: [6; 7],
     board: [['-'; 7]; 6],
     player: 'O',
+    moves: 0,
     log_update: LogUpdate::new(stdout()).unwrap(),
   };
 

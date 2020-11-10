@@ -8,6 +8,7 @@ struct Game {
   count: [u8; 7],
   board: [[char; 7]; 6],
   player: char,
+  moves: u32,
   log_update: LogUpdate<std::io::Stdout>,
 }
 
@@ -17,6 +18,7 @@ impl Game {
       count: [6; 7],
       board: [['-'; 7]; 6],
       player: 'O',
+      moves: 1,
       log_update: LogUpdate::new(stdout()).unwrap(),
     }
   }
@@ -96,8 +98,17 @@ impl Game {
     std::process::exit(0);
   }
 
+  fn tie(&mut self) {
+    self.log_update.done().unwrap();
+    println!("No one won (tie)");
+    std::process::exit(0);
+  }
+
   fn check_win(&mut self, c: usize) {
     let r = self.count[c] as usize;
+    if self.moves >= 42 {
+      self.tie()
+    }
     if c > 2 {
       if check_arr(
         [
@@ -207,6 +218,7 @@ impl Game {
     } else {
       self.player = 'O'
     }
+    self.moves += 1;
   }
 
   fn play(&mut self) {
