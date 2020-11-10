@@ -24,27 +24,27 @@ impl Game {
   }
 
   fn display_board(&self) -> String {
-    let mut res = String::new();
-    res.push(' ');
+    let mut board = String::new();
+    board.push(' ');
     for i in 0..7 {
-      res.push_str(&format!(" {} ", i + 1)[..]);
+      board.push_str(&format!(" {} ", i + 1)[..]);
       if i == 6 {
-        res.push('\n');
+        board.push('\n');
       }
     }
 
     for (index, row) in self.board.iter().enumerate() {
       for (slot_index, slot) in row.iter().enumerate() {
         if slot_index == 0 {
-          res.push_str(&format!("{}", index + 1)[..]);
+          board.push_str(&format!("{}", index + 1)[..]);
         }
-        res.push_str(&format!(" {} ", slot)[..]);
+        board.push_str(&format!(" {} ", slot)[..]);
         if slot_index == 6 {
-          res.push('\n');
+          board.push('\n');
         }
       }
     }
-    res
+    board
   }
 
   fn change_slot(&mut self, c: usize, r: usize, new: char) {
