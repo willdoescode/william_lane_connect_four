@@ -93,7 +93,7 @@ impl Game {
       match trimmed.parse::<u32>() {
         Ok(i) => {
           // Account for edge cases and error handling
-          if i != 0 {
+          if i != 0 && i <= 7 {
             if self.count[i as usize - 1] == 0 {
               println!("Please choose an empty column");
               self.input();
