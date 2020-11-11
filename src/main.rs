@@ -25,7 +25,7 @@ impl Game {
     Game {
       count: [6; 7],
       board: [['-'; 7]; 6],
-      player: 'O',
+      player: '○',
       moves: 1,
       log_update: LogUpdate::new(stdout()).unwrap(),
     }
@@ -291,10 +291,10 @@ impl Game {
     }
     
     // Change the player char relative to the current 
-    if self.player == 'O' {
-      self.player = '0'
+    if self.player == '○' {
+      self.player = '●'
     } else {
-      self.player = 'O'
+      self.player = '○'
     }
     // Increment the move count 
     self.moves += 1;
