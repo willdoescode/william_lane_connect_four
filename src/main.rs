@@ -214,13 +214,13 @@ impl Game {
   }
 
   fn check_down_left(&self, c: usize, r: usize) -> bool {
-    if r > 3 && c > 2 {
+    if r < 3 && c > 2 {
       return check_arr(
         [
           self.board[r][c],
-          self.board[r - 1][c - 1],
-          self.board[r - 2][c - 2],
-          self.board[r - 3][c - 3],
+          self.board[r + 1][c - 1],
+          self.board[r + 2][c - 2],
+          self.board[r + 3][c - 3],
         ],
         self.player,
       );

@@ -1,6 +1,12 @@
 use crate::*;
 
 #[test]
+fn test_check_arr() {
+  assert_eq!(check_arr(['0', '0', '0', '0'], '0'), true);
+  assert_ne!(check_arr(['O', '0', '0', '0'], '0'), true);
+}
+
+#[test]
 fn test_vert() {
   let mut game = Game {
     count: [6; 7],
@@ -106,4 +112,43 @@ fn test_right_up_diag() {
   assert_eq!(game.check_up_right(6, 0), true);
   game.change_slot(5, 1, '-');
   assert_ne!(game.check_up_right(3, 3), true);
+}
+
+#[test]
+fn test_left_up_diag() {
+  let mut game = Game {
+    count: [6; 7],
+    board: [['-'; 7]; 6],
+    player: 'O',
+    moves: 0,
+    log_update: LogUpdate::new(stdout()).unwrap(),
+  };
+  game.change_slot(3, 2, 'O');
+  game.change_slot(2, 3, 'O');
+  game.change_slot(1, 4, 'O');
+  game.change_slot(0, 5, 'O');
+  assert_eq!(game.check_up_left(0, 5), true);
+  game.change_slot(1, 4, '-');
+  assert_ne!(game.check_up_left(0, 5), true);
+}
+
+#[test]
+fn test_left_down_diag() {
+  let mut game = Game {
+    count: [6; 7],
+    board: [
+			['-', '-', '-', '-', '-', '-', '-'],
+			['-', '-', '-', '-', '-', '-', '-'],
+			['-', '-', '-', 'O', '-', '-', '-'],
+			['-', '-', 'O', '-', '-', '-', '-'],
+			['-', 'O', '-', '-', '-', '-', '-'],
+			['O', '-', '-', '-', '-', '-', '-'],
+		],
+    player: 'O',
+    moves: 0,
+    log_update: LogUpdate::new(stdout()).unwrap(),
+  };
+  assert_eq!(game.check_down_left(3, 2), true);
+  game.change_slot(2, 3, '-');
+  assert_ne!(game.check_down_left(3, 2), true);
 }
