@@ -69,27 +69,27 @@ impl Game {
       .read_line(&mut input_text)
       .expect("failed to read from stdin");
 
-      let trimmed = input_text.trim();
-      match trimmed.parse::<u32>() {
-        Ok(i) => {
-          if self.count[i as usize - 1] == 0 {
-            println!("Please choose an empty column");
-            self.input();
-          } else if i > 7 || i <= 0 {
-            println!("Please enter a number less than 7 and more than 0");
-            self.input();
-          } else {
-            self.animate_down((i - 1) as usize, self.player);
-            self.check_win(i as usize - 1);
-            stdout().flush().expect("could not flush");
-          }
-        }
-        Err(..) => {
-          println!("this was not an positive integer: {}", trimmed);
+    let trimmed = input_text.trim();
+    match trimmed.parse::<u32>() {
+      Ok(i) => {
+        if self.count[i as usize - 1] == 0 {
+          println!("Please choose an empty column");
           self.input();
+        } else if i > 7 || i == 0 {
+          println!("Please enter a number less than 7 and more than 0");
+          self.input();
+        } else {
+          self.animate_down((i - 1) as usize, self.player);
+          self.check_win(i as usize - 1);
+          stdout().flush().expect("could not flush");
         }
-      };
-      self.log_update.done().unwrap();
+      }
+      Err(..) => {
+        println!("this was not an positive integer: {}", trimmed);
+        self.input();
+      }
+    };
+    self.log_update.done().unwrap();
   }
 
   fn win(&mut self) {
@@ -106,19 +106,19 @@ impl Game {
 
   fn check_tie(&self) -> bool {
     self.moves >= 42
-  } 
+  }
 
   fn check_left(&self, c: usize, r: usize) -> bool {
     if c > 2 {
       return check_arr(
         [
-        self.board[r][c],
-        self.board[r][c - 1],
-        self.board[r][c - 2],
-        self.board[r][c - 3],
+          self.board[r][c],
+          self.board[r][c - 1],
+          self.board[r][c - 2],
+          self.board[r][c - 3],
         ],
         self.player,
-      )
+      );
     }
     false
   }
@@ -127,13 +127,13 @@ impl Game {
     if c < 4 {
       return check_arr(
         [
-        self.board[r][c],
-        self.board[r][c + 1],
-        self.board[r][c + 2],
-        self.board[r][c + 3],
+          self.board[r][c],
+          self.board[r][c + 1],
+          self.board[r][c + 2],
+          self.board[r][c + 3],
         ],
         self.player,
-      ) 
+      );
     }
     false
   }
@@ -142,13 +142,13 @@ impl Game {
     if r > 2 {
       return check_arr(
         [
-        self.board[r][c],
-        self.board[r - 1][c],
-        self.board[r - 2][c],
-        self.board[r - 3][c],
+          self.board[r][c],
+          self.board[r - 1][c],
+          self.board[r - 2][c],
+          self.board[r - 3][c],
         ],
         self.player,
-      ) 
+      );
     }
     false
   }
@@ -157,13 +157,13 @@ impl Game {
     if r < 3 {
       return check_arr(
         [
-        self.board[r][c],
-        self.board[r + 1][c],
-        self.board[r + 2][c],
-        self.board[r + 3][c],
+          self.board[r][c],
+          self.board[r + 1][c],
+          self.board[r + 2][c],
+          self.board[r + 3][c],
         ],
         self.player,
-      ) 
+      );
     }
     false
   }
@@ -172,13 +172,13 @@ impl Game {
     if r < 3 && c < 4 {
       return check_arr(
         [
-        self.board[r][c],
-        self.board[r + 1][c + 1],
-        self.board[r + 2][c + 2],
-        self.board[r + 3][c + 3],
+          self.board[r][c],
+          self.board[r + 1][c + 1],
+          self.board[r + 2][c + 2],
+          self.board[r + 3][c + 3],
         ],
         self.player,
-      ) 
+      );
     }
     false
   }
@@ -187,13 +187,13 @@ impl Game {
     if r < 3 && c > 2 {
       return check_arr(
         [
-        self.board[r][c],
-        self.board[r + 1][c - 1],
-        self.board[r + 2][c - 2],
-        self.board[r + 3][c - 3],
+          self.board[r][c],
+          self.board[r + 1][c - 1],
+          self.board[r + 2][c - 2],
+          self.board[r + 3][c - 3],
         ],
         self.player,
-      ) 
+      );
     }
     false
   }
@@ -202,28 +202,29 @@ impl Game {
     if r > 3 && c < 4 {
       return check_arr(
         [
-        self.board[r][c],
-        self.board[r - 1][c + 1],
-        self.board[r - 2][c + 2],
-        self.board[r - 3][c + 3],
+          self.board[r][c],
+          self.board[r - 1][c + 1],
+          self.board[r - 2][c + 2],
+          self.board[r - 3][c + 3],
         ],
         self.player,
-      )     }
+      );
+    }
     false
   }
 
   fn check_down_left(&self, c: usize, r: usize) -> bool {
-
     if r > 3 && c > 2 {
       return check_arr(
         [
-        self.board[r][c],
-        self.board[r - 1][c - 1],
-        self.board[r - 2][c - 2],
-        self.board[r - 3][c - 3],
+          self.board[r][c],
+          self.board[r - 1][c - 1],
+          self.board[r - 2][c - 2],
+          self.board[r - 3][c - 3],
         ],
         self.player,
-      )     }
+      );
+    }
     false
   }
 
@@ -233,15 +234,19 @@ impl Game {
       self.tie()
     }
 
-    if [self.check_left(c, r),
-    self.check_right(c, r),
-    self.check_vert(c, r),
-    self.check_down(c, r),
-    self.check_down_right(c, r),
-    self.check_up_right(c, r),
-    self.check_up_left(c, r),
-    self.check_down_left(c, r),
-    ].iter().any(|&b| b == true) {
+    if [
+      self.check_left(c, r),
+      self.check_right(c, r),
+      self.check_vert(c, r),
+      self.check_down(c, r),
+      self.check_down_right(c, r),
+      self.check_up_right(c, r),
+      self.check_up_left(c, r),
+      self.check_down_left(c, r),
+    ]
+    .iter()
+    .any(|&b| b)
+    {
       self.win()
     }
 
