@@ -111,7 +111,7 @@ impl Game {
           }
         }
         Err(..) => {
-          println!("this was not an positive integer: {}", trimmed);
+          println!("Please enter a positive 0 < number > 8");
           self.input();
         }
       };
