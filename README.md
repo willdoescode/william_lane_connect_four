@@ -1,6 +1,6 @@
 # William Lane Connect Four [![Build Status](https://travis-ci.org/camascoding/william_lane_connect_four.svg?branch=main)](https://travis-ci.org/camascoding/william_lane_connect_four)
 
-[![asciicast](https://asciinema.org/a/372382.svg)](https://asciinema.org/a/372382)
+[![asciicast](https://asciinema.org/a/372782.svg)](https://asciinema.org/a/372782)
 
 ## Requirements
 
