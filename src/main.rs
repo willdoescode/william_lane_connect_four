@@ -107,7 +107,6 @@ impl Game {
             } else {
               self.animate_down((i - 1) as usize, self.player);
               self.check_win(i as usize - 1);
-              std::io::stdout().flush().expect("could not flush");
             }
           } else {
             println!("Please enter a number less than 7 and more than 0");
@@ -116,6 +115,7 @@ impl Game {
         }
         Err(..) => {
           println!("Please enter a positive 0 < number > 8");
+              self.stdout.flush().expect("could not flush");
           self.input();
         }
       };
