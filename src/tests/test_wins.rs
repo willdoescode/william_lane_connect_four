@@ -13,7 +13,7 @@ fn test_vert() {
     board: [['-'; 7]; 6],
     player: 'O',
     moves: 0,
-    log_update: LogUpdate::new(stdout()).unwrap(),
+    stdout: std::io::stdout(),
   };
   game.change_slot(3, 5, 'O');
   game.change_slot(3, 4, 'O');
@@ -31,7 +31,7 @@ fn test_down() {
     board: [['-'; 7]; 6],
     player: 'O',
     moves: 0,
-    log_update: LogUpdate::new(stdout()).unwrap(),
+    stdout: std::io::stdout(),
   };
   game.change_slot(3, 5, 'O');
   game.change_slot(3, 4, 'O');
@@ -49,7 +49,7 @@ fn test_left() {
     board: [['-'; 7]; 6],
     player: 'O',
     moves: 0,
-    log_update: LogUpdate::new(stdout()).unwrap(),
+    stdout: std::io::stdout(),
   };
   game.change_slot(3, 0, 'O');
   game.change_slot(2, 0, 'O');
@@ -67,7 +67,7 @@ fn test_right() {
     board: [['-'; 7]; 6],
     player: 'O',
     moves: 0,
-    log_update: LogUpdate::new(stdout()).unwrap(),
+    stdout: std::io::stdout(),
   };
   game.change_slot(3, 0, 'O');
   game.change_slot(2, 0, 'O');
@@ -85,7 +85,7 @@ fn test_right_down_diag() {
     board: [['-'; 7]; 6],
     player: 'O',
     moves: 0,
-    log_update: LogUpdate::new(stdout()).unwrap(),
+    stdout: std::io::stdout(),
   };
   game.change_slot(3, 3, 'O');
   game.change_slot(2, 2, 'O');
@@ -103,7 +103,7 @@ fn test_right_up_diag() {
     board: [['-'; 7]; 6],
     player: 'O',
     moves: 0,
-    log_update: LogUpdate::new(stdout()).unwrap(),
+    stdout: std::io::stdout(),
   };
   game.change_slot(3, 3, 'O');
   game.change_slot(4, 2, 'O');
@@ -121,7 +121,7 @@ fn test_left_up_diag() {
     board: [['-'; 7]; 6],
     player: 'O',
     moves: 0,
-    log_update: LogUpdate::new(stdout()).unwrap(),
+    stdout: std::io::stdout(),
   };
   game.change_slot(3, 2, 'O');
   game.change_slot(2, 3, 'O');
@@ -146,7 +146,7 @@ fn test_left_down_diag() {
 		],
     player: 'O',
     moves: 0,
-    log_update: LogUpdate::new(stdout()).unwrap(),
+    stdout: std::io::stdout(),
   };
   assert_eq!(game.check_down_left(3, 2), true);
   game.change_slot(2, 3, '-');

@@ -9,7 +9,7 @@ fn test_new() {
     board: [['-'; 7]; 6],
     player: 'O',
     moves: 0,
-    log_update: LogUpdate::new(stdout()).unwrap(),
+    stdout: stdout(),
   };
 
   assert_eq!(board.display_board(), normal.display_board());

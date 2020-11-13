@@ -1,7 +1,8 @@
 #![allow(dead_code)]
 #![allow(clippy::collapsible_if)]
-use log_update::LogUpdate;
-use std::io::{prelude::*, stdout};
+use crossterm::{QueueableCommand, cursor};
+use termion::clear;
+use std::io::{stdout, Write};
 mod time;
 
 // Create a struct to contain the game state
@@ -16,7 +17,7 @@ struct Game {
   // If moves are more than or equal to 42 than the board is full (6 * 7 = 42)
   moves: u32,
   // Create a log update state to manipulate within functions
-  log_update: LogUpdate<std::io::Stdout>,
+  stdout: std::io::Stdout,
 }
 
 impl Game {
@@ -27,7 +28,7 @@ impl Game {
       board: [['-'; 7]; 6],
       player: '○',
       moves: 1,
-      log_update: LogUpdate::new(stdout()).unwrap(),
+      stdout: stdout() 
     }
   }
 
@@ -37,7 +38,7 @@ impl Game {
     // Push an initial space for the first number on the top row
     board.push(' ');
     for i in 0..7 {
-      // I have to convert the String to a &str using a reference to a slice
+      // I have to convert the String , Writeto a &str using a reference to a slice
       board.push_str(&format!(" {} ", i + 1)[..]);
       if i == 6 {
         // Pushing new line at end of the row
@@ -74,7 +75,9 @@ impl Game {
       }
       self.change_slot(col, x as usize, down_char);
       // Render the board
-      self.log_update.render(&self.display_board()).unwrap();
+      self.stdout.queue(cursor::MoveTo(0, 0)).unwrap();
+      println!("{}", self.display_board());
+      //self.log_update.render(&self.display_board()).unwrap();
       // Sleep function written in other file
       time::sleep_ms(200);
     }
@@ -82,6 +85,7 @@ impl Game {
   }
 
   fn input(&mut self) {
+    self.stdout.queue(cursor::MoveTo(5, 15)).unwrap();
     // Define input string
     let mut input_text = String::new();
     std::io::stdin()
@@ -103,7 +107,7 @@ impl Game {
             } else {
               self.animate_down((i - 1) as usize, self.player);
               self.check_win(i as usize - 1);
-              stdout().flush().expect("could not flush");
+              std::io::stdout().flush().expect("could not flush");
             }
           } else {
             println!("Please enter a number less than 7 and more than 0");
@@ -115,21 +119,19 @@ impl Game {
           self.input();
         }
       };
-      self.log_update.done().unwrap();
+      //self.log_update.done().unwrap();
   }
 
   // Win helper function that displays a win message and exits
   fn win(&mut self) {
-    self.log_update.done().unwrap();
     println!("{} has won!", self.player);
     std::process::exit(0);
   }
 
   // Tie helper function that displays a tie message and exits
   fn tie(&mut self) {
-    self.log_update.done().unwrap();
     println!("No one won (tie)");
-    std::process::exit(0);
+    std::process::exit(1);
   }
 
   // To check for a tie you simply have to see if more than 42 moves have been made
@@ -289,7 +291,7 @@ impl Game {
       // If there is a win display the win message
       self.win()
     }
-    
+
     // Change the player char relative to the current 
     if self.player == '○' {
       self.player = '●'
@@ -301,6 +303,9 @@ impl Game {
   }
 
   fn play(&mut self) {
+    println!("{}", clear::All);
+    self.stdout.queue(cursor::MoveTo(0, 0)).unwrap();
+    println!("{}", self.display_board());
     // The win and tie function stop the process with std::process::exit(0) so it is ok to have an infinite loop
     loop {
       self.input();

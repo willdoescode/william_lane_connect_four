@@ -1,11 +1,12 @@
 [package]
 name = "connect_four"
 description = "Connect 4 written in rust"
-version = "0.1.6"
+version = "0.1.7"
 authors = ["Will Lane <williamlane923@gmail.com>"]
 edition = "2018"
 license = "MIT"
 
 
 [dependencies]
-log-update = "0.1.0"
+crossterm = "0.18.2"
+termion = "1.5.5"
